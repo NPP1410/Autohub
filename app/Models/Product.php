@@ -68,6 +68,15 @@ class Product extends Model
         'distributor',
     ];
 
+    public function barcodes()
+{
+    return $this->hasMany(
+        Barcode::class,
+        'product_id',
+        'product_id'
+    );
+}
+
     // กำหนดชนิดข้อมูล
     protected function casts(): array
     {
