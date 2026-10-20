@@ -17,9 +17,13 @@
 /vendor/
 /node_modules/
 
+#_MACOSX
+/__MACOSX/
+
 # Frontend build output
-/public/build/
-/public/hot
+# /public/build/
+# /public/hot
+/public/
 
 # IDE / Editor
 /.idea/

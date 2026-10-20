@@ -1,0 +1,12 @@
+use App\Http\Controllers\Webpanel as Webpanel;
+
+Route::prefix('example')->group(function () {
+    Route::get('/', [Webpanel\ExampleController::class, 'index']);
+    Route::get('/add', [Webpanel\ExampleController::class, 'add']);
+    Route::post('/add', [Webpanel\ExampleController::class, 'insert']);
+    Route::get('/edit/{id}', [Webpanel\ExampleController::class, 'edit'])->where(['id' => '[0-9]+']);
+    Route::post('/edit/{id}', [Webpanel\ExampleController::class, 'update'])->where(['id' => '[0-9]+']);
+    Route::post('/destroy/{id}', [Webpanel\ExampleController::class, 'destroy'])->where(['id' => '[0-9]+']);
+    Route::post('/status/{id}', [Webpanel\ExampleController::class, 'status'])->where(['id' => '[0-9]+']);
+});
+

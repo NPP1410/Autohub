@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    @include("$prefix.layout.header")
+</head>
+
+<body data-sidebar="dark">
+    <div id="layout-wrapper">
+        @include("$prefix.layout.header-menu")
+        @include("$prefix.layout.sidebar")
+
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    @include("$prefix.layout.breadcrumb")
+
+                    <form id="form_submit">
+                        @csrf
+                        <div class="row">
+                            <div class="col-xl-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Edit {{ $name_page }}</h4>
+                                        <p class="card-title-desc">Update the selected item.</p>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-md-4 col-form-label required">Name</label>
+                                            <div class="col-md-8">
+                                                <input type="text" id="name" name="name" class="form-control" value="{{ $row->name }}" placeholder="Name">
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-md-4 col-form-label">Detail</label>
+                                            <div class="col-md-8">
+                                                <textarea id="detail" name="detail" class="form-control" rows="4" placeholder="Detail">{{ $row->detail }}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label class="col-md-4 col-form-label required">Status</label>
+                                            <div class="col-md-8">
+                                                <select name="isActive" id="isActive" class="form-select">
+                                                    <option value="Y" @selected($row->isActive === 'Y')>Active</option>
+                                                    <option value="N" @selected($row->isActive === 'N')>Inactive</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8 text-end">
+                                <a href="javascript:void(0)" onclick="submitForm();" class="btn btn-primary waves-effect waves-light">Save</a>
+                                <a href="{{ url("$segment/$folder") }}" class="btn btn-secondary waves-effect">Cancel</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            @include("$prefix.layout.footer")
+        </div>
+    </div>
+
+    @include("$prefix.layout.script")
+    <script>
+        function submitForm() {
+            if ($('#name').val() === '') {
+                Swal.fire('Warning', 'Please enter name.', 'warning');
+                return false;
+            }
+
+            Swal.fire({
+                title: 'Confirm save?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (!result.isConfirmed) {
+                    return;
+                }
+
+                loadingSwal();
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url("$segment/$folder/edit/$row->id") }}",
+                    data: new FormData($('#form_submit')[0]),
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function () {
+                        location.href = "{{ url("$segment/$folder") }}";
+                    },
+                    error: function (xhr) {
+                        const errorMessage = xhr.responseJSON || {};
+                        Swal.fire(errorMessage.title || 'Error', errorMessage.text || 'Please try again.', 'error');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
+
