@@ -1,0 +1,12 @@
+{
+    "thsarabunnew": {
+        "normal": "thsarabunnew-normal_bdb31cba6f8db5157be66799110abf71",
+        "bold": "thsarabunnew-bold_67b984447561313932bde0ae66a660f3",
+        "italic": "thsarabunnew-italic_8d61ba68046e0bd8425e5f287664f9d9",
+        "bold_italic": "thsarabunnew-bold-italic_4fc9cad2e998e6bc08388c322528f617"
+    },
+    "arimo": {
+        "normal": "C:\\laragon\\www\\pipatdev\\clinic\\storage\\fonts\/arimo_normal_1308425c81e371be67783dc20c47ec09",
+        "bold": "arimo_bold_c3ee2945616d7bdbb0a06b16cbc65f64"
+    }
+}

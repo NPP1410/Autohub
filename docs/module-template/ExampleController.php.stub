@@ -1,0 +1,211 @@
+<?php
+
+namespace App\Http\Controllers\Webpanel;
+
+use App\Helpers\Helper;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Webpanel\LogsController;
+use App\Models\Backend\ExampleModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
+class ExampleController extends Controller
+{
+    protected $prefix = 'back-end';
+    protected $segment = 'webpanel';
+    protected $controller = 'example';
+    protected $folder_controller = 'example';
+    protected $folder = 'example';
+    protected $menu_key = 'example';
+    protected $name_page = 'Example Management';
+
+    public function items($parameters)
+    {
+        $keyword = trim((string) Arr::get($parameters, 'keyword'));
+        $paginate = (int) Arr::get($parameters, 'total', 25);
+
+        $query = ExampleModel::query();
+
+        if ($keyword !== '') {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'LIKE', "%{$keyword}%")
+                    ->orWhere('detail', 'LIKE', "%{$keyword}%");
+            });
+        }
+
+        return $query->orderBy('id', 'desc')->paginate($paginate > 0 ? $paginate : 25);
+    }
+
+    public function index(Request $request)
+    {
+        if (!Helper::canView($this->menu_key)) {
+            return Helper::auth_menu();
+        }
+
+        $items = $this->items($request->all());
+        $items->pages = new \stdClass();
+        $items->pages->start = ($items->perPage() * $items->currentPage()) - $items->perPage();
+
+        return view("$this->prefix.pages.$this->folder_controller.index", $this->viewData([
+            'items' => $items,
+            'navs' => $this->navs(),
+        ]));
+    }
+
+    public function add(Request $request)
+    {
+        if (!Helper::canAdd($this->menu_key)) {
+            return Helper::auth_menu();
+        }
+
+        return view("$this->prefix.pages.$this->folder_controller.add", $this->viewData([
+            'navs' => $this->navs('Add'),
+        ]));
+    }
+
+    public function edit(Request $request, $id)
+    {
+        if (!Helper::canEdit($this->menu_key)) {
+            return Helper::auth_menu();
+        }
+
+        $row = ExampleModel::find($id);
+        if (!$row) {
+            abort(404);
+        }
+
+        return view("$this->prefix.pages.$this->folder_controller.edit", $this->viewData([
+            'row' => $row,
+            'navs' => $this->navs('Edit'),
+        ]));
+    }
+
+    public function insert(Request $request)
+    {
+        return $this->store($request);
+    }
+
+    public function update(Request $request, $id)
+    {
+        return $this->store($request, $id);
+    }
+
+    public function store(Request $request, $id = null)
+    {
+        if ($id === null && !Helper::canAdd($this->menu_key)) {
+            return Helper::forbiddenJson();
+        }
+
+        if ($id !== null && !Helper::canEdit($this->menu_key)) {
+            return Helper::forbiddenJson();
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'detail' => ['nullable', 'string', 'max:1000'],
+            'isActive' => ['required', 'in:Y,N'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'title' => 'Invalid data',
+                'text' => $validator->errors()->first(),
+            ], 422);
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $data = $id === null ? new ExampleModel() : ExampleModel::find($id);
+            if (!$data) {
+                return response()->json([
+                    'title' => 'Not found',
+                    'text' => 'The selected item does not exist.',
+                ], 404);
+            }
+
+            $data->name = $request->name;
+            $data->detail = $request->detail;
+            $data->isActive = $request->isActive;
+            $data->save();
+
+            DB::commit();
+
+            return response()->json([
+                'title' => 'Success',
+                'text' => '',
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            LogsController::logInsert($e->getLine(), url()->current(), $e->getMessage(), 'backend');
+
+            return response()->json([
+                'title' => 'Something went wrong',
+                'text' => 'Please try again.',
+            ], 500);
+        }
+    }
+
+    public function destroy(Request $request, $id = null)
+    {
+        if (!Helper::canDelete($this->menu_key)) {
+            return Helper::forbiddenJson();
+        }
+
+        $ids = collect(explode(',', (string) ($id ?: $request->id)))
+            ->map(fn ($value) => (int) $value)
+            ->filter(fn ($value) => $value > 0)
+            ->unique()
+            ->values();
+
+        if ($ids->isEmpty()) {
+            return response()->json(false, 422);
+        }
+
+        ExampleModel::whereIn('id', $ids->all())->delete();
+
+        return response()->json(true);
+    }
+
+    public function status($id = null)
+    {
+        if (!Helper::canEdit($this->menu_key)) {
+            return Helper::forbiddenJson();
+        }
+
+        $data = ExampleModel::find($id);
+        if (!$data) {
+            return response()->json(false, 404);
+        }
+
+        $data->isActive = $data->isActive === 'Y' ? 'N' : 'Y';
+
+        return response()->json((bool) $data->save());
+    }
+
+    protected function viewData(array $extra = []): array
+    {
+        return array_merge([
+            'prefix' => $this->prefix,
+            'folder' => $this->folder,
+            'segment' => $this->segment,
+            'name_page' => $this->name_page,
+        ], $extra);
+    }
+
+    protected function navs($current = null): array
+    {
+        $navs = [
+            ['url' => "$this->segment/$this->folder", 'name' => $this->name_page, 'last' => $current ? 0 : 1],
+        ];
+
+        if ($current) {
+            $navs[] = ['url' => 'javascript:void(0)', 'name' => $current, 'last' => 1];
+        }
+
+        return $navs;
+    }
+}
+
