@@ -4,7 +4,7 @@
     <base href="{{ url('th') }}">
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>เข้าสู่ระบบ | PipatDev CRM</title>
+    <title>เข้าสู่ระบบ | Alpha Auto</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
@@ -19,20 +19,20 @@
 
 <body>
     <main class="login-page">
-        <section class="crm-showcase" aria-label="PipatDev CRM">
+        <section class="crm-showcase" aria-label="Alpha Auto">
             <div class="showcase-glow showcase-glow-one"></div>
             <div class="showcase-glow showcase-glow-two"></div>
 
             <div class="brand">
                 <span class="brand-logo"><img src="{{ asset('logo_pipatdev_white.png') }}" alt="PipatDev"></span>
-                <span class="brand-name">PipatDev <b>CRM</b></span>
+                <span class="brand-name">Alpha <b>Auto</b></span>
             </div>
         </section>
 
         <section class="login-panel">
             <div class="mobile-brand">
                 <img src="{{ asset('logo_pipatdev.png') }}" alt="PipatDev">
-                <span>PipatDev <b>CRM</b></span>
+                <span>Alpha <b>Auto</b></span>
             </div>
 
             <div class="login-box">
@@ -84,7 +84,7 @@
             </div>
 
             <div class="login-footer">
-                <span>&copy; <script>document.write(new Date().getFullYear())</script> PipatDev CRM</span>
+                <span>&copy; <script>document.write(new Date().getFullYear())</script> Alpha Auto</span>
                 <span>ต้องการความช่วยเหลือ? <a href="javascript:void(0)">ติดต่อผู้ดูแลระบบ</a></span>
             </div>
         </section>
