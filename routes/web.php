@@ -41,7 +41,7 @@ use App\Http\Controllers\Webpanel as Webpanel;
 //====================  ====================
 
 Route::get('/', function () {
-    return redirect('webpanel');
+    return redirect('webpanel/login');
 });
 
 require __DIR__ . '/backend-router/web.php';
