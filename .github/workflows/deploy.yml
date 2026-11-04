@@ -1,0 +1,52 @@
+name: Deploy Alpha Auto
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alpha-auto-host-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Update Laravel on host
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          fingerprint: ${{ secrets.SSH_FINGERPRINT }}
+          timeout: 60s
+          command_timeout: 15m
+          # One chained command stops deployment if any command fails.
+          # Preserve server .env, storage, and the separate public_html directory.
+          script: >-
+            cd /home/zfield/domains/alpha.field.orangeworkshop.info/app &&
+            git --no-pager diff --exit-code HEAD &&
+            git pull --ff-only origin main &&
+            php artisan config:clear &&
+            composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction &&
+            php artisan migrate --force --no-interaction &&
+            php artisan route:clear &&
+            php artisan config:cache &&
+            php artisan view:cache &&
+            git --no-pager log -1 --format=oneline
+
+      - name: Check login page
+        run: >-
+          curl --fail --silent --show-error --location
+          --connect-timeout 15 --max-time 60
+          --retry 3 --retry-delay 5
+          --output /dev/null
+          https://alpha.field.orangeworkshop.info/webpanel/login

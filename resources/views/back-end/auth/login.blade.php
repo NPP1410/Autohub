@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="th">
 <head>
-    <base href="{{ url('th') }}">
+
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>เข้าสู่ระบบ | PipatDev CRM</title>
+    <title>เข้าสู่ระบบ | Alpha Auto</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
     <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
@@ -19,20 +19,20 @@
 
 <body>
     <main class="login-page">
-        <section class="crm-showcase" aria-label="PipatDev CRM">
+        <section class="crm-showcase" aria-label="Alpha Auto">
             <div class="showcase-glow showcase-glow-one"></div>
             <div class="showcase-glow showcase-glow-two"></div>
 
             <div class="brand">
                 <span class="brand-logo"><img src="{{ asset('logo_pipatdev_white.png') }}" alt="PipatDev"></span>
-                <span class="brand-name">PipatDev <b>CRM</b></span>
+                <span class="brand-name">Alpha <b>Auto</b></span>
             </div>
         </section>
 
         <section class="login-panel">
             <div class="mobile-brand">
                 <img src="{{ asset('logo_pipatdev.png') }}" alt="PipatDev">
-                <span>PipatDev <b>CRM</b></span>
+                <span>Alpha <b>Auto</b></span>
             </div>
 
             <div class="login-box">
@@ -42,8 +42,11 @@
                     <p>เข้าสู่ระบบเพื่อจัดการลูกค้าและทีมขายของคุณ</p>
                 </div>
 
-                <form id="frm_cus" action="" method="post" onsubmit="return login_submit();">
+                <form id="frm_cus" action="{{ url('webpanel/login') }}" method="post">
                     @csrf
+                    @if ($errors->any())
+                        <div class="alert alert-danger" role="alert">{{ $errors->first() }}</div>
+                    @endif
 
                     <div class="form-group">
                         <label for="username" class="form-label">ชื่อผู้ใช้งาน</label>
@@ -84,7 +87,7 @@
             </div>
 
             <div class="login-footer">
-                <span>&copy; <script>document.write(new Date().getFullYear())</script> PipatDev CRM</span>
+                <span>&copy; <script>document.write(new Date().getFullYear())</script> Alpha Auto</span>
                 <span>ต้องการความช่วยเหลือ? <a href="javascript:void(0)">ติดต่อผู้ดูแลระบบ</a></span>
             </div>
         </section>
@@ -99,7 +102,8 @@
     <script src="{{ asset('backend/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
     @include("back-end.layout.loading")
     <script>
-        var fullUrl = window.location.origin + window.location.pathname;
+        if (window.jQuery && window.Swal) {
+        var fullUrl = @json(url('webpanel/login'));
 
         $.ajaxSetup({ headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
 
@@ -155,6 +159,12 @@
                 }
             });
             return false;
+        }
+
+        $('#frm_cus').on('submit', function (event) {
+            event.preventDefault();
+            login_submit();
+        });
         }
     </script>
 </body>
