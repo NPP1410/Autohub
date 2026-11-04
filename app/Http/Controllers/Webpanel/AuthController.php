@@ -44,7 +44,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
+            return $this->loginResponse($request, [
                 'status' => '422',
                 'result' => 'error',
                 'title' => 'Invalid login data',
@@ -55,7 +55,7 @@ class AuthController extends Controller
         $throttleKey = Str::lower((string) $request->username) . '|' . $request->ip();
 
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
-            return response()->json([
+            return $this->loginResponse($request, [
                 'status' => '429',
                 'result' => 'error',
                 'title' => 'Too many login attempts',
@@ -78,7 +78,7 @@ class AuthController extends Controller
                 if (!$member || $member->isActive !== 'Y') {
                     Auth::guard('admin')->logout();
 
-                    return response()->json([
+                    return $this->loginResponse($request, [
                         'status' => '500',
                         'result' => 'error',
                         'title' => 'Account disabled',
@@ -86,9 +86,11 @@ class AuthController extends Controller
                     ], 500);
                 }
 
+                $request->session()->regenerate();
+
                 RateLimiter::clear($throttleKey);
 
-                return response()->json([
+                return $this->loginResponse($request, [
                     'status' => '200',
                     'result' => 'success',
                     'message' => 'Login success',
@@ -102,7 +104,7 @@ class AuthController extends Controller
            
             RateLimiter::hit($throttleKey, 60);
 
-            return response()->json([
+            return $this->loginResponse($request, [
                 'status' => '500',
                 'result' => 'error',
                 'title' => 'Login failed',
@@ -111,13 +113,28 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             LogsController::logInsert($e->getLine(), url()->current(), $e->getMessage(), 'backend');
 
-            return response()->json([
+            return $this->loginResponse($request, [
                 'status' => '500',
                 'result' => 'error',
                 'title' => 'Something went wrong',
                 'text' => 'Please try again.',
             ], 500);
         }
+    }
+
+    protected function loginResponse(Request $request, array $data, int $status = 200)
+    {
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json($data, $status);
+        }
+
+        if (($data['result'] ?? null) === 'success') {
+            return redirect('webpanel');
+        }
+
+        return redirect('webpanel/login')
+            ->withErrors(['username' => $data['text'] ?? 'Unable to sign in.'])
+            ->withInput($request->only('username', 'remember'));
     }
 
     public function logOut()
