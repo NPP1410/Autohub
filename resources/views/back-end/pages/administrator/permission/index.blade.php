@@ -31,6 +31,7 @@
 
 									<div class="row mb-2">
 										<form method="GET" action="" class="row align-items-end">
+										
 											<div class="col-sm-4">
 												<div class="search-box me-2 mb-2 d-inline-block w-100">
 													<div class="position-relative">
@@ -48,13 +49,13 @@
 										</form>
 									</div>
 
-									<div class="row mb-2">
+									{{-- <div class="row mb-2">
 										<div class="col-sm-12">
 											<div class="text-sm-end">
 												<a href="{{ url("$segment/$folder/add") }}" class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2 addOrder-modal"><i class="mdi mdi-plus me-1"></i> Add New</a>
 											</div>
 										</div><!-- end col-->
-									</div>
+									</div> --}}
 									<div class="hidden md:block mx-auto text-slate-500"><b>Showing {{$items->currentPage()}} to {{$items->total()}} of {{$items->total()}} entries</b></div>
 									<div class="table-responsive">
 										<table class="table align-middle table-nowrap dt-responsive nowrap w-100 table-check" id="order-list">
@@ -81,8 +82,11 @@
 															</td>
 															
 															<td class="text-center">
+															@if($item->id != 1)
 																<a href="{{ url("$segment/$folder/edit/$item->id") }}" class="text-success edit-list" data-edit-id="12"><i class="mdi mdi-pencil font-size-18"></i></a>
 																{{-- <a href="javascript:void(0);" onclick="deleteItem({{$item->id}})" class="text-danger remove-list" data-remove-id="12"><i class="mdi mdi-delete font-size-18"></i></a> --}}
+															@endif
+															
 															</td>
 														</tr>
 													@endforeach

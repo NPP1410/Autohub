@@ -47,6 +47,17 @@
                                 <div class="row g-3">
                                     <div class="col-md-4"><label class="form-label" for="credit_days">เครดิตการค้า (วัน)</label><div class="input-group"><input type="number" class="form-control" id="credit_days" name="credit_days" min="0" max="3650" value="{{ $row->credit_days }}"><span class="input-group-text">วัน</span></div></div>
                                     <div class="col-md-4"><label class="form-label required" for="isActive">สถานะ</label><select class="form-select" id="isActive" name="isActive"><option value="Y" @selected($row->isActive === 'Y')>ใช้งาน</option><option value="N" @selected($row->isActive === 'N')>ปิดใช้งาน</option></select></div>
+                                          <div class="col-md-4">
+                                        <label class="form-label required" for="isActive">Seller By</label>
+                                        <select class="form-select" id="isActive" name="user_id">
+                                        @foreach($user as $key => $u)
+                                            <option value="{{ $u->id }}"
+                                             @if($u->id == $row->user_id) selected 
+                                             @endif> {{ $u->firstname.' - '.$u->lastname }}</option>
+                                        @endforeach
+                                        </select>
+                                        </div>
+                                    
                                     <div class="col-12"><label class="form-label" for="note">หมายเหตุภายใน</label><textarea class="form-control" id="note" name="note" placeholder="รายละเอียดเพิ่มเติมสำหรับทีมงาน (ไม่แสดงบนใบเสนอราคา)">{{ $row->note }}</textarea></div>
                                 </div>
                             </div></div>
