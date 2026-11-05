@@ -35,12 +35,12 @@ jobs:
             cd /home/zfield/domains/alpha.field.orangeworkshop.info/app &&
             git --no-pager diff --exit-code HEAD &&
             git pull --ff-only origin main &&
-            php artisan config:clear &&
-            composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction &&
-            php artisan migrate --force --no-interaction &&
-            php artisan route:clear &&
-            php artisan config:cache &&
-            php artisan view:cache &&
+            /usr/local/php83/bin/php artisan config:clear &&
+            /usr/local/php83/bin/php /usr/local/bin/composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction &&
+            /usr/local/php83/bin/php artisan migrate --force --no-interaction &&
+            /usr/local/php83/bin/php artisan route:clear &&
+            /usr/local/php83/bin/php artisan config:cache &&
+            /usr/local/php83/bin/php artisan view:cache &&
             git --no-pager log -1 --format=oneline
 
       - name: Check login page
