@@ -41,6 +41,7 @@ jobs:
             /usr/local/php83/bin/php artisan route:clear &&
             /usr/local/php83/bin/php artisan config:cache &&
             /usr/local/php83/bin/php artisan view:cache &&
+            /usr/local/php83/bin/php artisan frontend:publish-assets --public-path=../public_html &&
             git --no-pager log -1 --format=oneline
 
       - name: Check login page

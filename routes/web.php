@@ -50,3 +50,6 @@ Route::get('/public', function () {
 });
 
 require __DIR__ . '/backend-router/web.php';
+
+// Customer-facing preview, isolated from /webpanel.
+require __DIR__ . '/frontend.php';
