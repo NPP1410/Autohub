@@ -41,12 +41,12 @@ use App\Http\Controllers\Webpanel as Webpanel;
 //====================  ====================
 
 Route::get('/', function () {
-    return redirect('webpanel/login')->header('Cache-Control', 'no-store');
+    return redirect()->route('frontend.home')->header('Cache-Control', 'no-store');
 });
 
 // Compatibility with the old /public URL cached by some browsers.
 Route::get('/public', function () {
-    return redirect('webpanel/login')->header('Cache-Control', 'no-store');
+    return redirect()->route('frontend.home')->header('Cache-Control', 'no-store');
 });
 
 require __DIR__ . '/backend-router/web.php';

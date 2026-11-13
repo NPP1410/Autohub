@@ -1,6 +1,6 @@
 # Alpha Auto frontend preview
 
-The supplied PHP design is integrated as a separate Laravel view module. The existing root redirect, `/webpanel` routes, admin controllers, permissions, database and login remain unchanged.
+The supplied PHP design is integrated as a separate Laravel view module. The root `/` and legacy `/public` URLs redirect to `/frontend`. The `/webpanel` routes, admin controllers, permissions, database and login remain unchanged.
 
 ## URLs
 
