@@ -52,6 +52,8 @@ class ProfileController extends Controller
 
     public function edit(Request $request)
     {
+
+    dd('clear');
         return view("$this->prefix.pages.$this->folder_controller.edit", [
             'prefix' => $this->prefix,
             'folder' => $this->folder,

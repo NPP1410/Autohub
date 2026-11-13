@@ -27,6 +27,7 @@ class CustomerController extends Controller
         $customerType = Arr::get($parameters, 'customer_type');
         $status = Arr::get($parameters, 'status');
         $paginate = (int) Arr::get($parameters, 'total', 25);
+        $parameters = Arr::get($parameters,'sell_id');
 
         $query = CustomerModel::query();
 
@@ -47,6 +48,12 @@ class CustomerController extends Controller
         if (in_array($status, ['Y', 'N'], true)) {
             $query->where('isActive', $status);
         }
+        $member_id = Auth::guard('admin')->id();
+    
+        if($member_id != 1){
+               $query->where('user_id', $member_id);
+        }
+        
 
         return $query->latest('id')->paginate(in_array($paginate, [10, 25, 50, 100], true) ? $paginate : 25);
     }
@@ -56,12 +63,16 @@ class CustomerController extends Controller
         if (!Helper::canView($this->menu_key)) {
             return Helper::auth_menu();
         }
-
+ 
         $items = $this->items($request->all());
         $items->pages = (object) [
             'start' => ($items->perPage() * $items->currentPage()) - $items->perPage(),
         ];
-
+  
+        // check user
+        
+        
+      
         return view("$this->prefix.pages.$this->folder_controller.index", $this->viewData([
             'items' => $items,
             'stats' => [
@@ -83,6 +94,7 @@ class CustomerController extends Controller
         return view("$this->prefix.pages.$this->folder_controller.add", $this->viewData([
             'row' => new CustomerModel(['customer_type' => 'company', 'credit_days' => 0, 'isActive' => 'Y']),
             'navs' => $this->navs('เพิ่มลูกค้า'),
+            'user' => DB::table('tb_admin')->where('isActive','Y')->select('id','firstname','lastname')->OrderBy('id','asc')->get() 
         ]));
     }
 
@@ -95,6 +107,7 @@ class CustomerController extends Controller
         return view("$this->prefix.pages.$this->folder_controller.edit", $this->viewData([
             'row' => CustomerModel::findOrFail($id),
             'navs' => $this->navs('แก้ไขลูกค้า'),
+              'user' => DB::table('tb_admin')->where('isActive','Y')->select('id','firstname','lastname')->OrderBy('id','asc')->get() 
         ]));
     }
 
@@ -111,6 +124,7 @@ class CustomerController extends Controller
     public function store(Request $request, $id = null)
     {
         if ($id === null && !Helper::canAdd($this->menu_key)) {
+            
             return Helper::forbiddenJson();
         }
 
@@ -118,6 +132,7 @@ class CustomerController extends Controller
             return Helper::forbiddenJson();
         }
 
+        // dd($id,$request->all());
         $validator = Validator::make($request->all(), [
             'customer_type' => ['required', 'in:company,individual,government,other'],
             'name' => ['required', 'string', 'max:255'],
@@ -135,6 +150,7 @@ class CustomerController extends Controller
             'credit_days' => ['nullable', 'integer', 'min:0', 'max:3650'],
             'note' => ['nullable', 'string'],
             'isActive' => ['required', 'in:Y,N'],
+            'user_id' => ['nullable', 'string', 'max:50'],
         ], [
             'name.required' => 'กรุณาระบุชื่อลูกค้า',
             'email.email' => 'รูปแบบอีเมลไม่ถูกต้อง',
@@ -148,6 +164,7 @@ class CustomerController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
+       
 
         DB::beginTransaction();
 
@@ -159,6 +176,16 @@ class CustomerController extends Controller
                 $data->created_at = now();
                 $data->created_by = Auth::guard('admin')->id();
             } else {
+
+                   $member_id = Auth::guard('admin')->id();
+    
+                    if($member_id != 1 && $member_id  != $validated['user_id']){
+                         return response()->json([
+                        'title' => 'ข้อมูบผู้ขายไม่ถูกต้อง',
+                        'text' => 'ไม่สามารถแก้ใขข้อมูลลูกค้า ของ ผู้ขายคนอื่น',
+                    ], 404);
+                    }
+
                 $data = CustomerModel::find($id);
 
                 if (!$data) {
@@ -189,6 +216,7 @@ class CustomerController extends Controller
             $data->credit_days = (int) ($validated['credit_days'] ?? 0);
             $data->note = $validated['note'] ?? null;
             $data->isActive = $validated['isActive'];
+            $data->user_id = $validated['user_id'];
 
             if (!$data->save()) {
                 DB::rollBack();
@@ -240,6 +268,11 @@ class CustomerController extends Controller
         }
 
         $customer = CustomerModel::findOrFail($id);
+          $member_id = Auth::guard('admin')->id();
+    
+                    if($member_id != 1 && $member_id  != $customer->user_id){
+                      return response()->json(['success' => false, 'message' => 'ข้อมูลผู้ขายไม่ถูกต้อง']);
+                    }
         $customer->isActive = $customer->isActive === 'Y' ? 'N' : 'Y';
         $customer->updated_by = Auth::guard('admin')->id();
         $customer->save();
@@ -252,6 +285,12 @@ class CustomerController extends Controller
         if (!Helper::canDelete($this->menu_key)) {
             return Helper::forbiddenJson();
         }
+              $customer = CustomerModel::findOrFail($id);
+                  $member_id = Auth::guard('admin')->id();
+    
+                    if($member_id != 1 && $member_id  != $customer->user_id){
+                      return response()->json(['success' => false, 'message' => 'ข้อมูลผู้ขายไม่ถูกต้อง']);
+                    }
 
         CustomerModel::findOrFail($id)->delete();
 

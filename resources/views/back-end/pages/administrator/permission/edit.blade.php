@@ -68,7 +68,8 @@
                                         <div class="row">
                                             <div class="col-lg-12 mb-3">
                                                 <label for="name" class="form-label">ชื่อ</label>
-                                                <input type="text" id="name" name="name" class="form-control" value="{{@$row->name}}" placeholder="กรุณากรอกข้อมูลระดับสิทธิ์" />
+                                                <input type="text" id="name" name="name" class="form-control" value="{{@$row->name}}" placeholder="กรุณากรอกข้อมูลระดับสิทธิ์" 
+                                                readonly/>
                                             </div>
                                         </div>
 

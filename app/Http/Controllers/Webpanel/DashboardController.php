@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Webpanel;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Backend\AdminModel;
+use App\Models\Backend\MenuModel;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +49,24 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
 
-    
+      $member_id = Auth::guard('admin')->id();
+        // $member = DB::table('tb_admin as a')
+        //     ->leftJoin('tb_sales as s', 's.user_id', '=', 'a.id')
+        //     ->where('a.id', $member_id)
+        //     ->selectRaw('
+        //         CASE
+        //             WHEN a.role IN (3, 4) AND s.id IS NULL THEN 0
+        //             ELSE 1
+        //         END AS status_check
+        //     ')
+        //     ->first();
+
+      
+        // if ($member->status_check) {
+       
+        //     return redirect('/webpanel/profile')->with('error','กรุณาเลือกทีม Sales ');
+        // }
+
         if (!Helper::canView($this->menu_key)) {
             return Helper::auth_menu();
         }
@@ -57,6 +75,9 @@ class DashboardController extends Controller
         $navs = [
             '0' => ['url' => "javascript:void(0)", 'name' => "หน้าแรก", "last" => 0],
         ];
+      
+        
+
         return view("$this->prefix.pages.$this->folder.index", [
             'prefix' => $this->prefix,
             'folder' => $this->folder,

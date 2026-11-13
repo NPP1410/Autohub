@@ -53,12 +53,16 @@ class PermissionController extends Controller
 
     public function items($parameters)
     {
-        $search = Arr::get($parameters, 'search');
+        $search = Arr::get($parameters, 'keyword');
         $paginate = Arr::get($parameters, 'total', 15);
+
         $query = new RoleModel;
         if ($search) {
-            $query = $query->where('name_th', 'LIKE', '%' . trim($search) . '%');
-            $query = $query->where('name_en', 'LIKE', '%' . trim($search) . '%');
+            // $query = $query->where('name_th', 'LIKE', '%' . trim($search) . '%');
+            // $query = $query->where('name_en', 'LIKE', '%' . trim($search) . '%');
+
+            $query = $query->where('name', 'LIKE', '%' . trim($search) . '%');
+            
         }
         $query = $query->orderBy('id', 'asc');
         $results = $query->paginate($paginate);
@@ -70,6 +74,7 @@ class PermissionController extends Controller
         if (!Helper::canView($this->menu_key)) {
             return Helper::auth_menu();
         }
+
 
         $items = $this->items($request->all());
         $items->pages = new \stdClass();
@@ -94,7 +99,11 @@ class PermissionController extends Controller
         if (!Helper::canAdd($this->menu_key)) {
             return Helper::auth_menu();
         }
+        if($request->key != 'dksahdjk223&*'){
+return redirect('webpanel/administrator/permission');
+        }
 
+        
         $navs = [
             '0' => ['url' => "javascript:void(0)", 'name' => "Administrator", "last" => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "สิทธิ์การใช้งาน", "last" => 0],
@@ -115,6 +124,9 @@ class PermissionController extends Controller
             return Helper::auth_menu();
         }
 
+        if($id == 1){
+            return redirect('/webpanel/');
+        }
         $navs = [
             '0' => ['url' => "javascript:void(0)", 'name' => "Administrator", "last" => 0],
             '1' => ['url' => "$this->segment/$this->folder", 'name' => "สิทธิ์การใช้งาน", "last" => 0],
@@ -157,6 +169,10 @@ class PermissionController extends Controller
             return Helper::forbiddenJson();
         }
 
+          if($request->id == 1){
+            return redirect('/webpanel/');
+        }
+
         $datas = RoleModel::find(explode(',', $request->id));
         if (@$datas) {
             foreach ($datas as $data) {
@@ -175,10 +191,21 @@ class PermissionController extends Controller
     //==== Function Insert Update Delete Status Sort & Others ====
     public function insert(Request $request, $id = null)
     {
+                if($request->key != 'dksahdjk223&*'){
+return redirect('webpanel/administrator/permission');
+        }
+
+
         return $this->store($request, $id = null);
     }
     public function update(Request $request, $id)
     {
+
+    
+          if($id == 1){
+            return redirect('/webpanel/');
+        }
+
         return $this->store($request, $id);
     }
     public function store($request, $id = null)
@@ -188,6 +215,10 @@ class PermissionController extends Controller
         }
 
         if ($id !== null && !Helper::canEdit($this->menu_key)) {
+
+        
+
+
             return Helper::forbiddenJson();
         }
 
@@ -207,7 +238,7 @@ class PermissionController extends Controller
                 $isActive = 'Y';
             }
             $data->isActive = $isActive;
-            $data->name = $request->name;
+            // $data->name = $request->name;
             $data->detail = $request->detail;
             if ($data->save()) {
                 $roleId = $data->id;

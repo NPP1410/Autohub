@@ -15,7 +15,7 @@ class Helper
     //==== Menu Active ====
     public static function auth_menu()
     {
-        abort(403, 'คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
+        abort(403, 'คุณไม่มีสิทธิ์เข้าถึงหน้านี้ กรุณาติดต่อเเจ้าหน้าที');
     }
 
     public static function showImage($image = null){
@@ -113,6 +113,7 @@ class Helper
         $column = self::normalizePermissionKey($permission_key);
 
         return $permission && data_get($permission, $column) === 'on';
+
     }
 
     public static function canView($menu_key)
@@ -813,4 +814,29 @@ class Helper
         return $status;
     }
     //=====================
+
+
+    public static function getPermissionRole(){
+        $Auth_ = Auth::guard('admin')->id;
+        $admin_Role = AdminModel::where(['tb_admin.id' => $Auth_])
+        // ->where('tb_role.isActive','Y')
+        // ->join('tb_role','tb_admin.role','tb_role')
+        // ->select(
+        //     'tb_role.name as name'
+        // )
+        // ->OrderBy('tb_role.id','desc')
+        ->first();
+
+
+        // $result = strtolower($admin_Role->name);
+        // if($result == 'manager' || $result == 'super admin'){
+        //     return true;
+        // }
+        if($admin_Role->isMD == 'Y'){
+        return true;
+        }
+
+        return false;
+        
+    }
 }

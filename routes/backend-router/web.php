@@ -8,6 +8,7 @@ Route::get('webpanel/logout', [Webpanel\AuthController::class, 'logOut']);
 
 Route::group(['middleware' => ['Webpanel']], function () {
     Route::prefix('webpanel')->group(function () {
+        Route::get('/dashboard', [Webpanel\DashboardController::class, 'index']);
         Route::get('/', [Webpanel\DashboardController::class, 'index']);
         Route::get('/profile', [Webpanel\DashboardController::class, 'profile']);
         Route::post('/profile', [Webpanel\DashboardController::class, 'profileSubmit']);
@@ -20,6 +21,92 @@ Route::group(['middleware' => ['Webpanel']], function () {
           //sale manager
           //Manage Director
         //   });
+
+
+
+
+
+        // Revenue
+        Route::prefix('revenue')->group(function () {
+
+        });
+
+        // Expenditure
+        Route::prefix('expenditure')->group(function () {
+
+        });
+
+        // Finance
+        Route::prefix('finance')->group(function () {
+
+        });
+
+
+        // CRM
+        Route::prefix('crm')->group(function () {
+
+        
+        });
+
+        // Inventory
+        Route::prefix('inventory')->group(function () {
+
+        Route::get('/', [Webpanel\InventoryController::class, 'index']);
+        // master รายชื่อ
+        // 
+        // setting ค่า ต่อ บาท ยึดหลัก บาทไทย (- THB/USD) 
+        // 
+
+        });
+
+
+        // Category
+        Route::prefix('category')->group(function () {
+
+        // กลุ้มสินค้าและ อื่นๆ 
+
+        });
+
+        // Promotion และ Reward Point Rule
+        Route::prefix('promotion')->group(function () {
+
+        });
+
+
+
+        //  Claim/Return Policy
+        Route::prefix('claim')->group(function () {
+
+        });
+
+        // Delivery
+        Route::prefix('delivery')->group(function () {
+
+        });
+
+
+        // Ticket
+        Route::prefix('ticket')->group(function () {
+            
+            
+        });
+
+
+        // Report
+        Route::prefix('report')->group(function () {
+            
+            
+        });
+
+
+
+        // Contact
+        Route::prefix('contact')->group(function () {
+            
+
+        });
+
+
 
         Route::prefix('customer')->group(function () {
             Route::get('/', [Webpanel\CustomerController::class, 'index']);
