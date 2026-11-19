@@ -1,0 +1,2 @@
+<div class="member-profile__credit"><span>เครดิตคงเหลือ <small>(ตัวอย่าง)</small></span><strong>30,000 บาท</strong></div>
+<div class="member-profile__credit"><span>คะแนนสะสม <small>(ตัวอย่าง)</small></span><strong>1,000 Point</strong></div>

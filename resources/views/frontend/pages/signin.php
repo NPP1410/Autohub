@@ -44,9 +44,12 @@ $pageName = "login";
                                 </div>
 
                                 <!-- Google Login -->
-                                <button
-                                    type="button"
-                                    class="login-box__google">
+                                <?php $googleReady = app(\App\Services\Frontend\GoogleOAuth::class)->configured(); ?>
+                                <?php if ($googleReady): ?>
+                                <a href="<?= htmlspecialchars(route('frontend.google.redirect'), ENT_QUOTES, 'UTF-8') ?>" class="login-box__google" style="text-decoration:none">
+                                <?php else: ?>
+                                <button type="button" class="login-box__google" disabled title="ยังไม่ได้ตั้งค่า Google OAuth">
+                                <?php endif; ?>
 
                                     <svg width="20" height="20"
                                          viewBox="0 0 48 48"
@@ -68,7 +71,7 @@ $pageName = "login";
 
                                     <span>Sign in with Google</span>
 
-                                </button>
+                                <?php if ($googleReady): ?></a><?php else: ?></button><?php endif; ?>
 
                                 <!-- Divider -->
                                 <div class="login-box__divider">
@@ -76,9 +79,7 @@ $pageName = "login";
                                 </div>
 
                                 <!-- Login Form -->
-                                <?php if (session('frontend.notice')): ?>
-                                    <div class="alert alert-info" role="status"><?= htmlspecialchars(session('frontend.notice'), ENT_QUOTES, 'UTF-8') ?></div>
-                                <?php endif; ?>
+                                <?php require resource_path('views/frontend/partials/auth-feedback.php'); ?>
                                 <form class="login-box__form"
                                       action="<?= htmlspecialchars(route('frontend.signin.submit'), ENT_QUOTES, 'UTF-8') ?>"
                                       method="POST">
@@ -95,7 +96,7 @@ $pageName = "login";
                                         <input
                                             type="email"
                                             id="loginEmail"
-                                            name="email"
+                                            name="email" value="<?= htmlspecialchars(old('email', ''), ENT_QUOTES, 'UTF-8') ?>" maxlength="254"
                                             class="form-control login-box__input"
                                             placeholder="mail@example.com"
                                             autocomplete="email"

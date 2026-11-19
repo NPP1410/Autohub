@@ -1,0 +1,1 @@
+<div class="alert alert-info frontend-design-notice" role="note">ข้อมูลตัวอย่างสำหรับพัฒนา — แบบฟอร์ม การเคลม คะแนนและการแจ้งเตือนในหน้านี้ยังไม่เชื่อมข้อมูลจริง</div>

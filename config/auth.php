@@ -36,6 +36,10 @@ return [
     */
 
     'guards' => [
+        'frontend' => [
+            'driver' => 'session',
+            'provider' => 'frontend_users',
+        ],
         'web' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -79,6 +83,10 @@ return [
     */
 
     'providers' => [
+        'frontend_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Frontend\FrontendUser::class,
+        ],
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Authuse\Admin::class,
@@ -109,6 +117,13 @@ return [
     */
 
     'passwords' => [
+        'frontend' => [
+            'driver' => 'database',
+            'provider' => 'frontend_users',
+            'table' => 'frontend_password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',

@@ -1,0 +1,85 @@
+:root {
+  --site-font-family: "Noto Sans Thai", sans-serif;
+  --site-font-size: 15px;
+  --site-title-size: 20px;
+  --site-page-inline: 32px;
+  --site-topbar-height: 84px;
+}
+
+body:not(.login-page) {
+  font-family: var(--site-font-family);
+  font-size: var(--site-font-size);
+  line-height: 1.55;
+}
+
+body:not(.login-page) .main-content > .topbar {
+  box-sizing: border-box;
+  height: auto;
+  min-height: var(--site-topbar-height);
+  padding: 14px var(--site-page-inline);
+  gap: 20px;
+}
+
+body:not(.login-page) .main-content > .topbar .topbar-title {
+  min-width: 0;
+}
+
+body:not(.login-page) .main-content > .topbar .topbar-title h5 {
+  margin: 0;
+  font-size: var(--site-title-size);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+body:not(.login-page) .main-content > .page-content {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 24px var(--site-page-inline) 40px;
+  font-family: var(--site-font-family);
+  font-size: var(--site-font-size);
+  line-height: 1.55;
+}
+
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  body:not(.login-page) .main-content > .topbar {
+    padding-right: 24px;
+    padding-left: 80px;
+  }
+
+  body:not(.login-page) .main-content > .page-content {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  body:not(.login-page) .main-content > .topbar {
+    min-height: 0;
+    padding: 12px 16px 14px;
+    gap: 10px;
+  }
+
+  body:not(.login-page) .main-content > .topbar .topbar-title {
+    display: flex;
+    align-items: center;
+    flex: 0 0 100%;
+    min-height: 44px;
+    padding-left: 56px;
+  }
+
+  body:not(.login-page) .main-content > .topbar .topbar-title h5 {
+    font-size: 18px;
+  }
+
+  body:not(.login-page) .main-content > .topbar .topbar-actions {
+    flex: 1 1 100%;
+    width: 100%;
+    max-width: none;
+    gap: 8px;
+  }
+
+  body:not(.login-page) .main-content > .page-content {
+    padding: 20px 16px 32px;
+  }
+}

@@ -1,3 +1,4 @@
+<?php require resource_path('views/frontend/partials/sweetalert.php'); ?>
  <script src="<?= htmlspecialchars(asset('frontend-assets/js/jquery.min.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
  <script src="<?= htmlspecialchars(asset('frontend-assets/js/bootstrap.bundle.min.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
  <script src="<?= htmlspecialchars(asset('frontend-assets/js/jquery-ui.js'), ENT_QUOTES, 'UTF-8') ?>"></script>
@@ -16,6 +17,7 @@
  <script>
  	$(document).ready(function() {
  		var currentPage = <?php echo json_encode($pageName ?? ''); ?>;
+        currentPage = ({index: 'dashboard', 'promotion-detail': 'promotion'})[currentPage] || currentPage;
 
  		$('.menu-link[data-page]').each(function() {
  			var menuPage = $(this).attr('data-page');
@@ -553,7 +555,7 @@
  			if (button.classList.contains('js-add-product')) {
 
  				if (!validQuantity(quantity)) {
- 					alert('กรุณาระบุจำนวนสินค้า 1 - 9999 ชิ้น');
+					frontendAlert('กรุณาระบุจำนวนสินค้า 1 - 9999 ชิ้น');
  					qtyInput.focus();
  					return;
  				}
@@ -571,7 +573,7 @@
  				if (existing) {
 
  					if (!validQuantity(existing.quantity + quantity)) {
- 						alert('จำนวนสินค้ารวมต้องไม่เกิน 9999 ชิ้น');
+						frontendAlert('จำนวนสินค้ารวมต้องไม่เกิน 9999 ชิ้น');
  						return;
  					}
 
@@ -709,7 +711,7 @@
  			if (!product) return;
 
  			if (!validQuantity(quantity)) {
- 				alert('กรุณาระบุจำนวนสินค้า 1 - 9999 ชิ้น');
+				frontendAlert('กรุณาระบุจำนวนสินค้า 1 - 9999 ชิ้น');
  				input.value = product.quantity;
  				return;
  			}
@@ -815,7 +817,7 @@
  				// POST orderPayload to the server.
  				// Server must validate stock and recalculate prices.
 
- 				alert(
+				frontendAlert(
  					'เตรียมรายการสั่งซื้อเรียบร้อยแล้ว ' +
  					'(Demo: ยังไม่ได้บันทึกลงระบบ)'
  				);
@@ -1111,119 +1113,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
  </script>
 
- <script>
- document.addEventListener('DOMContentLoaded', function () {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
     const profile = document.getElementById('memberProfile');
     if (!profile) return;
-
-    const form = document.getElementById('memberProfileForm');
-    const editButton = document.getElementById('editMemberProfile');
-    const saveButton = document.getElementById('saveMemberProfile');
-    const status = document.getElementById('memberProfileStatus');
-    const avatarInput = document.getElementById('memberAvatarUpload');
-    const avatars = profile.querySelectorAll('[data-member-avatar]');
-    let avatarUrl = null;
-
-    function announce(message) {
-        status.textContent = message;
-        status.hidden = false;
-    }
-
-    function setEditing(editing) {
-        form.querySelectorAll('[data-member-edit]').forEach(function (field) {
-            field.readOnly = !editing;
-        });
-        saveButton.hidden = !editing;
-        editButton.hidden = editing;
-    }
-
-    editButton.addEventListener('click', function () {
-        setEditing(true);
-        document.getElementById('memberFirstName').focus();
-    });
-    document.getElementById('editMemberBiography').addEventListener('click', function () {
-        setEditing(true);
-        document.getElementById('memberBiography').focus();
-    });
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        if (saveButton.hidden) return;
-        const name = [document.getElementById('memberFirstName').value.trim(), document.getElementById('memberLastName').value.trim()].join(' ');
-        document.getElementById('memberDisplayName').textContent = name;
-        document.getElementById('memberDisplayEmail').textContent = document.getElementById('memberEmail').value;
-        avatars.forEach(function (avatar) { avatar.alt = name; });
-        setEditing(false);
-        announce('อัปเดตตัวอย่างบนหน้านี้แล้ว ข้อมูลจะไม่ถูกบันทึกลงระบบ');
-    });
-
-    document.getElementById('copyMemberEmail').addEventListener('click', async function () {
+    document.getElementById('copyMemberEmail')?.addEventListener('click', async () => {
         try {
             await navigator.clipboard.writeText(document.getElementById('memberDisplayEmail').textContent);
-            announce('คัดลอกอีเมลแล้ว');
-        } catch (error) {
-            announce('ไม่สามารถคัดลอกอัตโนมัติได้ กรุณาเลือกและคัดลอกอีเมลจากการ์ด Profile');
-        }
+            frontendAlert('คัดลอกอีเมลแล้ว', 'success');
+        } catch (_) { frontendAlert('ไม่สามารถคัดลอกได้ กรุณาคัดลอกอีเมลด้วยตนเอง', 'error'); }
     });
-
-    document.getElementById('uploadMemberAvatar').addEventListener('click', function () { avatarInput.click(); });
-    avatarInput.addEventListener('change', function () {
-        const file = avatarInput.files[0];
-        if (!file) return;
-        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
-            announce('กรุณาเลือกรูป JPG, PNG หรือ WebP ขนาดไม่เกิน 5 MB');
-            avatarInput.value = '';
-            return;
-        }
-        if (avatarUrl) URL.revokeObjectURL(avatarUrl);
-        avatarUrl = URL.createObjectURL(file);
-        avatars.forEach(function (avatar) { avatar.src = avatarUrl; });
-        announce('แสดงตัวอย่างรูปใหม่แล้ว รูปยังไม่ได้อัปโหลดลงระบบ');
-    });
-    document.getElementById('deleteMemberAvatar').addEventListener('click', function () {
-        if (avatarUrl) URL.revokeObjectURL(avatarUrl);
-        avatarUrl = null;
-        avatarInput.value = '';
-        const fallback = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192"><rect width="192" height="192" fill="#e8ebef"/><circle cx="96" cy="70" r="32" fill="#8995a3"/><path d="M32 185v-20a64 64 0 0 1 128 0v20" fill="#8995a3"/></svg>');
-        avatars.forEach(function (avatar) { avatar.src = fallback; });
-        announce('ลบรูปจากตัวอย่างบนหน้านี้แล้ว');
-    });
-    window.addEventListener('pagehide', function () { if (avatarUrl) URL.revokeObjectURL(avatarUrl); });
-
-    profile.querySelectorAll('[data-member-password]').forEach(function (button) {
-        button.addEventListener('click', function () {
+    profile.querySelectorAll('[data-member-password]').forEach(button => {
+        button.addEventListener('click', () => {
             const field = document.getElementById(button.dataset.memberPassword);
-            const show = field.type === 'password';
-            field.type = show ? 'text' : 'password';
-            button.setAttribute('aria-pressed', String(show));
-            button.setAttribute('aria-label', (show ? 'Hide' : 'Show') + ' password');
-            button.querySelector('i').className = show ? 'bi bi-eye' : 'bi bi-eye-slash';
+            field.type = field.type === 'password' ? 'text' : 'password';
+            button.setAttribute('aria-pressed', String(field.type === 'text'));
         });
     });
-    const passwordForm = document.getElementById('memberPasswordForm');
-    const newPassword = document.getElementById('memberNewPassword');
-    const repeatPassword = document.getElementById('memberRepeatPassword');
-    function checkPasswords() {
-        repeatPassword.setCustomValidity(newPassword.value !== repeatPassword.value ? 'กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน' : '');
-    }
-    newPassword.addEventListener('input', checkPasswords);
-    repeatPassword.addEventListener('input', checkPasswords);
-    passwordForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        checkPasswords();
-        if (!passwordForm.reportValidity()) return;
-        passwordForm.reset();
-        passwordForm.querySelectorAll('[data-member-password]').forEach(function (button) {
-            document.getElementById(button.dataset.memberPassword).type = 'password';
-            button.setAttribute('aria-pressed', 'false');
-            button.setAttribute('aria-label', 'Show password');
-            button.querySelector('i').className = 'bi bi-eye-slash';
-        });
-        const message = document.getElementById('memberPasswordStatus');
-        message.textContent = 'ตัวอย่าง: ตรวจสอบรูปแบบรหัสผ่านแล้ว ยังไม่ได้เปลี่ยนรหัสผ่านจริง';
-        message.hidden = false;
-    });
- });
- </script>
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -1626,3 +1534,5 @@ document.addEventListener('DOMContentLoaded', function () {
     render();
 });
 </script>
+
+<?php require resource_path('views/frontend/partials/menu-scripts.php'); ?>

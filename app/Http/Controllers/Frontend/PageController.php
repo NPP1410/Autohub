@@ -22,18 +22,23 @@ class PageController extends Controller
   11 => 'product-detail',
   12 => 'purchase-history',
   13 => 'purchase-order',
-  14 => 'signin',
+  14 => 'catalogue',
+  15 => 'claim-list',
+  16 => 'claim-product',
+  17 => 'contact',
+  18 => 'new-model',
+  19 => 'notifications',
+  20 => 'point-reward',
+  21 => 'privacy-policy',
+  22 => 'promotion',
+  23 => 'promotion-detail',
+  24 => 'register-claim',
+  25 => 'top-sale',
+  26 => 'point-reward-detail',
 );
 
-    // These screens were referenced by the design but not included in its files.
-    public const PENDING = [
-        'claims' => 'เคลมสินค้า',
-        'forgot-password' => 'ลืมรหัสผ่าน',
-        'notifications' => 'การแจ้งเตือน',
-        'register' => 'สมัครสมาชิก',
-        'rewards' => 'คะแนนสะสม',
-        'search' => 'ค้นหาสินค้า',
-    ];
+    // Preserve old design links while using the newly supplied screens.
+    public const ALIASES = ['claims' => 'claim-list', 'rewards' => 'point-reward'];
 
     public function home(Request $request)
     {
@@ -46,13 +51,9 @@ class PageController extends Controller
             return redirect()->route('frontend.page', ['page' => 'purchase-history']);
         }
 
-        if ($page === 'logout') {
-            // Frontend preview does not sign out or modify the admin session.
-            return redirect()->route('frontend.signin');
-        }
 
-        if (array_key_exists($page, self::PENDING)) {
-            return view('frontend.pages.pending', ['pendingTitle' => self::PENDING[$page]]);
+        if (array_key_exists($page, self::ALIASES)) {
+            return redirect()->route('frontend.page', ['page' => self::ALIASES[$page]]);
         }
 
         abort_unless(in_array($page, self::PAGES, true), 404);
@@ -60,12 +61,4 @@ class PageController extends Controller
         return view('frontend.pages.'.$page);
     }
 
-    public function previewSignIn(Request $request)
-    {
-        // Authentication will be implemented separately from the admin guard.
-        return redirect()->route('frontend.signin')->with(
-            'frontend.notice',
-            'หน้านี้เป็นตัวอย่างหน้าบ้าน ยังไม่ได้เชื่อมระบบสมาชิก ข้อมูลที่กรอกจะไม่ถูกบันทึก'
-        );
-    }
 }

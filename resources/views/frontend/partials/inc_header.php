@@ -18,7 +18,7 @@ if (empty($_description))     $_description = '';
 <meta property="og:image" content="<?= htmlspecialchars(asset('frontend-assets/images/logo.png'), ENT_QUOTES, 'UTF-8') ?>" />
 
 
-<link type="text/css" rel="stylesheet" href="<?= htmlspecialchars(asset('frontend-assets/css/layout.css'), ENT_QUOTES, 'UTF-8') ?>" />
+<link type="text/css" rel="stylesheet" href="<?= htmlspecialchars(\App\Support\FrontendAsset::url('css/layout.css'), ENT_QUOTES, 'UTF-8') ?>" />
 <link type="image/ico" rel="shortcut icon" href="<?= htmlspecialchars(asset('frontend-assets/images/favicon.ico'), ENT_QUOTES, 'UTF-8') ?>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,4 +29,7 @@ if (empty($_description))     $_description = '';
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker-bs5.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-   
+
+<link rel="stylesheet" href="<?= htmlspecialchars(\App\Support\FrontendAsset::url('css/menu-pages.css'), ENT_QUOTES, 'UTF-8') ?>">
+
+<link rel="stylesheet" href="<?= htmlspecialchars(\App\Support\FrontendAsset::url('css/site-consistency.css'), ENT_QUOTES, 'UTF-8') ?>">

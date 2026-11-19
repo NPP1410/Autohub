@@ -1,0 +1,799 @@
+.point-reward-page .page-content {
+    min-height: calc(100vh - 150px);
+    padding: 18px 3.2% 36px;
+    background: #f8f9fa;
+}
+
+.point-reward-page .point-reward {
+    color: #023337;
+    line-height: 1.45;
+}
+
+.point-reward-page .point-reward__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2.7fr) minmax(260px, 1fr);
+    gap: 16px;
+    align-items: start;
+}
+
+.point-reward-page .point-reward__main,
+.point-reward-page .point-reward__sidebar {
+    min-width: 0;
+}
+
+.point-reward-page .point-reward__panel,
+.point-reward-page .point-reward__products {
+    padding: 34px 24px 28px;
+    border: 1px solid #e9eaec;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.point-reward-page .point-reward__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.point-reward-page .point-reward__header h1 {
+    margin: 0;
+    color: #111;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.point-reward-page .point-reward__header>a {
+    display: none;
+}
+
+.point-reward-page .point-reward__tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.point-reward-page .point-reward__search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 180px;
+    height: 34px;
+    margin: 0;
+    padding: 0 10px;
+    border-radius: 7px;
+    background: #f7f8fa;
+}
+
+.point-reward-page .point-reward__search input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    color: #535f70;
+    background: transparent;
+    font-size: 14px;
+}
+
+.point-reward-page .point-reward__search i {
+    color: #687386;
+    font-size: 15px;
+}
+
+.point-reward-page .point-reward__view {
+    display: flex;
+}
+
+.point-reward-page .point-reward__view button {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid #dfe3e9;
+    color: #53606d;
+    background: #fff;
+    font-size: 16px;
+}
+
+.point-reward-page .point-reward__view button+button {
+    border-left: 0;
+}
+
+.point-reward-page .point-reward__view button.is-active {
+    color: var(--orange-color);
+}
+
+.point-reward-page .point-reward__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px 8px;
+}
+
+.point-reward-page .point-reward-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding: 10px 10px 10px;
+    border: 1px solid #e9eaec;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.point-reward-page .point-reward-card__visual {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1.55;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.point-reward-page .point-reward-card__visual img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.point-reward-page .point-reward-card__badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 25px;
+    padding: 4px 8px;
+    border-radius: 3px 0 5px 0;
+    color: #fff;
+    background: #f32891;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.point-reward-page .point-reward-card__badge i {
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward-card__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.point-reward-page .point-reward-card__content h2 {
+    margin: 0 0 3px;
+    color: #252a28;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.point-reward-page .point-reward-card__content p {
+    display: -webkit-box;
+    min-height: 34px;
+    margin: 0 0 6px;
+    overflow: hidden;
+    color: #68716e;
+    font-size: 12px;
+    line-height: 1.4;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.point-reward-page .point-reward-card__meta {
+    display: grid;
+    gap: 3px;
+    width: 100%;
+    margin-top: auto;
+    color: #525c58;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.point-reward-page .point-reward-card__meta span {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    min-width: 0;
+}
+
+.point-reward-page .point-reward-card__meta i {
+    flex: 0 0 14px;
+    color: var(--orange-color);
+    font-size: 13px;
+}
+
+.point-reward-page .point-reward-card__button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 0;
+    margin-top: 6px;
+    padding: 2px 0;
+    border: 0;
+    color: var(--orange-color);
+    background: transparent;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.point-reward-page .point-reward-card__button:hover {
+    color: #e84b22;
+    text-decoration: underline;
+}
+
+.point-reward-page .point-reward__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.point-reward-page .point-reward__pagination>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.point-reward-page .point-reward__pagination button,
+.point-reward-page .point-reward__pagination span {
+    display: grid;
+    place-items: center;
+    min-width: 40px;
+    height: 42px;
+    padding: 0 8px;
+    border: 1px solid #d0d5dd;
+    border-radius: 4px;
+    color: #023337;
+    background: #fff;
+    font-size: 16px;
+}
+
+.point-reward-page .point-reward__pagination button.is-active {
+    border-color: var(--orange-color);
+    color: #fff;
+    background: var(--orange-color);
+}
+
+.point-reward-page .point-reward__pagination>button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    min-height: 48px;
+    height: auto;
+    padding: 0 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.12);
+    font-size: 16px;
+}
+
+.point-reward-page .point-reward__pagination button:disabled {
+    opacity: 0.55;
+}
+
+@media (max-width: 1499.98px) {
+    .point-reward-page .point-reward__pagination {
+        justify-content: center;
+    }
+
+    .point-reward-page .point-reward__pagination>div {
+        gap: 6px;
+    }
+
+    .point-reward-page .point-reward__pagination>div button,
+    .point-reward-page .point-reward__pagination span {
+        min-width: 34px;
+    }
+}
+
+@media (max-width: 767.98px) {
+
+    .point-reward-page .point-reward__pagination>div button,
+    .point-reward-page .point-reward__pagination span {
+        min-width: 32px;
+        height: 38px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .point-reward-page .point-reward__pagination>div {
+        order: -1;
+        width: 100%;
+    }
+}
+
+.point-reward-page .point-reward__sidebar {
+    display: grid;
+    gap: 10px;
+}
+
+.point-reward-page .point-reward__stats {
+    display: grid;
+    gap: 8px;
+}
+
+.point-reward-page .point-reward__stats article {
+    padding: 10px 12px;
+    border: 1px solid #e9eaec;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.point-reward-page .point-reward__stats h2 {
+    margin: 0;
+    color: var(--orange-color);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.point-reward-page .point-reward__stats p {
+    margin: 0;
+    color: #687386;
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward__stats strong {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+    color: #023337;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.point-reward-page .point-reward__stats small {
+    color: #111;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.point-reward-page .point-reward__stats em {
+    color: #18c76a;
+    font-size: 11px;
+    font-style: normal;
+}
+
+.point-reward-page .point-reward__stats article>span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    color: #687386;
+    font-size: 11px;
+}
+
+.point-reward-page .point-reward__stats a {
+    padding: 3px 10px;
+    border: 1px solid var(--orange-color);
+    border-radius: 12px;
+    color: var(--orange-color);
+    font-size: 10px;
+    text-decoration: none;
+}
+
+.point-reward-page .point-reward__products {
+    padding: 12px;
+}
+
+.point-reward-page .point-reward__products>header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.point-reward-page .point-reward__products h2 {
+    margin: 0;
+    color: #292d35;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.point-reward-page .point-reward__products>header a {
+    color: var(--orange-color);
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.point-reward-page .point-reward__product-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 34px;
+    margin-bottom: 8px;
+    padding: 0 9px;
+    border-radius: 7px;
+    color: #687386;
+    background: #f7f8fa;
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward__product-search input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward__products ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.point-reward-page .point-reward__products li+li {
+    border-top: 1px solid #e9eaec;
+}
+
+.point-reward-page .point-reward__products li>a {
+    display: grid;
+    grid-template-columns: 35px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 7px;
+    min-height: 53px;
+    color: #023337;
+    text-decoration: none;
+}
+
+.point-reward-page .point-reward__products img {
+    width: 35px;
+    height: 43px;
+    object-fit: contain;
+}
+
+.point-reward-page .point-reward__products li span {
+    display: grid;
+    min-width: 0;
+}
+
+.point-reward-page .point-reward__products strong {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.point-reward-page .point-reward__products small {
+    color: #687386;
+    font-size: 11px;
+}
+
+.point-reward-page .point-reward__products b {
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 991.98px) {
+    .point-reward-page .point-reward__layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .point-reward-page .point-reward__sidebar {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .point-reward-page .page-content {
+        padding: 20px 18px 30px;
+    }
+
+    .point-reward-page .point-reward__header {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .point-reward-page .point-reward__header h1 {
+        white-space: nowrap;
+    }
+
+    .point-reward-page .point-reward__tools {
+        width: 100%;
+    }
+
+    .point-reward-page .point-reward__search {
+        flex: 1;
+        width: auto;
+    }
+
+    .point-reward-page .point-reward__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 10px;
+    }
+
+    .point-reward-page .point-reward__sidebar {
+        grid-template-columns: 1fr;
+    }
+}
+
+.point-reward-page .point-reward-detail {
+    max-width: none;
+    margin: 0 auto;
+    color: #023337;
+    line-height: 1.55;
+}
+
+.point-reward-page .point-reward-detail__columns {
+    display: grid;
+    grid-template-columns: minmax(0, 2.7fr) minmax(220px, 1fr);
+    align-items: start;
+    gap: 16px;
+}
+
+.point-reward-page .point-reward-detail__main,
+.point-reward-page .point-reward-detail__sidebar {
+    min-width: 0;
+}
+
+.point-reward-page .point-reward-detail__main {
+    padding: 34px 24px 28px;
+    border: 1px solid #e9eaec;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.point-reward-page .point-reward-detail__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    color: #687386;
+    font-size: 13px;
+}
+
+.point-reward-page .point-reward-detail__breadcrumb a,
+.point-reward-page .point-reward-detail__back {
+    color: #687386;
+    text-decoration: none;
+}
+
+.point-reward-page .point-reward-detail__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: start;
+    gap: 32px;
+}
+
+.point-reward-page .point-reward-detail__visual {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1.18;
+    margin: 0;
+    border-radius: 8px;
+    background: #f5f6f7;
+}
+
+.point-reward-page .point-reward-detail__visual img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.point-reward-page .point-reward-detail__visual figcaption {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: #fff;
+    background: rgba(2, 51, 55, 0.78);
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward-detail__visual figcaption i {
+    margin-right: 5px;
+    color: #ff8a63;
+}
+
+.point-reward-page .point-reward-detail__content {
+    min-width: 0;
+}
+
+.point-reward-page .point-reward-detail__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+.point-reward-page .point-reward-detail__heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.point-reward-page .point-reward-detail__brand {
+    display: grid;
+    flex: 0 0 56px;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    color: #fff;
+    background: var(--orange-color);
+    font-size: 25px;
+}
+
+.point-reward-page .point-reward-detail__heading p {
+    margin: 0 0 2px;
+    color: #687386;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.point-reward-page .point-reward-detail__heading h1 {
+    margin: 0;
+    color: #023337;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.point-reward-page .point-reward-detail__intro {
+    margin: 14px 0;
+    color: #535f70;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.point-reward-page .point-reward-detail__meta {
+    display: grid;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.point-reward-page .point-reward-detail__meta p {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    color: #303b3b;
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward-detail__meta i {
+    flex: 0 0 17px;
+    color: var(--orange-color);
+    font-size: 16px;
+}
+
+.point-reward-page .point-reward-detail__points {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 16px;
+    padding: 8px 13px;
+    border-radius: 7px;
+    color: #fff;
+    background: #f32891;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.point-reward-page .point-reward-detail__benefit {
+    margin: 0 0 18px;
+    padding: 16px;
+    border-left: 4px solid var(--orange-color);
+    border-radius: 7px;
+    background: #fff3ec;
+}
+
+.point-reward-page .point-reward-detail__benefit h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    color: #023337;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.point-reward-page .point-reward-detail__benefit h2 i {
+    color: var(--orange-color);
+}
+
+.point-reward-page .point-reward-detail__benefit p {
+    margin: 0;
+    padding: 12px;
+    border-radius: 6px;
+    color: #535f70;
+    background: #fff;
+    font-size: 12px;
+}
+
+.point-reward-page .point-reward-detail__terms {
+    border-bottom: 1px solid #dfe3e9;
+}
+
+.point-reward-page .point-reward-detail__terms summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    color: #023337;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+}
+
+.point-reward-page .point-reward-detail__terms summary::-webkit-details-marker {
+    display: none;
+}
+
+.point-reward-page .point-reward-detail__terms ol {
+    display: grid;
+    gap: 7px;
+    margin: 4px 0 16px;
+    padding-left: 21px;
+    color: #687386;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.point-reward-page .point-reward-detail__action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 44px;
+    margin-top: 18px;
+    padding: 0 22px;
+    border-radius: 7px;
+    color: #fff;
+    background: var(--orange-color);
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.point-reward-page .point-reward-detail__action:hover {
+    color: #fff;
+    background: #e84b22;
+}
+
+@media (max-width: 767.98px) {
+    .point-reward-page .point-reward-detail__columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .point-reward-page .point-reward-detail__layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .point-reward-page .point-reward-detail__visual {
+        aspect-ratio: 1.25;
+    }
+
+    .point-reward-page .point-reward-detail__heading h1 {
+        font-size: 18px;
+    }
+}

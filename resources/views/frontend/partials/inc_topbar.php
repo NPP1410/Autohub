@@ -1,6 +1,6 @@
 <?php
 // ตัวอย่างข้อมูลผู้ใช้งานจาก Session
-$userName = session('frontend.preview_name', 'Demo Customer');
+$userName = auth('frontend')->user()?->name ?? 'Customer';
 $userImage = asset('frontend-assets/images/avatar.svg');
 ?>
 
@@ -17,7 +17,7 @@ $userImage = asset('frontend-assets/images/avatar.svg');
         <form class="search-box" action="search.php" method="GET">
             <input
                 type="search"
-                name="keyword"
+                name="q"
                 placeholder="Search"
                 aria-label="Search">
             <button type="submit" aria-label="ค้นหา">
@@ -34,20 +34,21 @@ $userImage = asset('frontend-assets/images/avatar.svg');
                 aria-expanded="false"
                 aria-label="Notifications">
                 <i class="bi bi-bell"></i>
-                <span class="notification-dot"></span>
+                <span class="notification-dot" data-notification-dot></span>
             </button>
 
             <div class="dropdown-menu dropdown-menu-end notification-menu">
                 <div class="dropdown-header notification-heading">
                     <strong>Notifications</strong>
-                    <span class="badge bg-danger">3 ใหม่</span>
+                    <span class="badge bg-danger" data-notification-badge>3 ใหม่</span>
                 </div>
 
                 <a href="notifications.php" class="dropdown-item notification-item">
                     <i class="bi bi-box-seam text-primary"></i>
                     <div>
                         <strong>ออเดอร์ใหม่</strong>
-                        <small>มีรายการสั่งซื้อใหม่เข้ามา</small>
+                        <small>เครดิตคงเหลือ: 30,000 บาท (ตัวอย่าง)</small>
+                        <small>คะแนนสะสม: 1,000 Point (ตัวอย่าง)</small>
                     </div>
                 </a>
 
@@ -115,10 +116,12 @@ $userImage = asset('frontend-assets/images/avatar.svg');
 
                 <div class="dropdown-divider"></div>
 
-                <a href="logout.php" class="dropdown-item logout-item">
+                <form method="post" action="<?= htmlspecialchars(route('frontend.logout'), ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="_token" value="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+                    <button type="submit" class="dropdown-item logout-item">
                     <i class="bi bi-box-arrow-right"></i>
                     <span>ออกจากระบบ</span>
-                </a>
+                </button></form>
 
             </div>
         </div>
